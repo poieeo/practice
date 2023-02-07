@@ -1,0 +1,12 @@
+-- 코드를 입력하세요
+-- SELECT 	author_id, count(	author_id) 건수 from book
+-- group by 	author_id
+-- order by 건수 desc
+select AUTHOR_ID,	AUTHOR_NAME	,CATEGORY, sum(판매금액)
+from
+
+(SELECT book.AUTHOR_ID,	AUTHOR_NAME	,CATEGORY	,SALES*price 판매금액 from book_sales
+left join book on book_sales.book_id=book.book_id
+left join author on book.author_id=author.author_id) t
+group by AUTHOR_ID,	AUTHOR_NAME	,CATEGORY
+order by AUTHOR_ID, CATEGORY desc 
