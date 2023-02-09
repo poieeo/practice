@@ -1,0 +1,131 @@
+------ 테이블생성 create 
+테이블수정 alter
+테이블 삭제 drop
+테이블의 내용변경 update 행단위 삭제 deldete
+
+
+
+
+
+/* create table 과목(
+ 과정번호 tinyint primary key,  
+ 과정명 nvarchar(5) not null,
+ 학점 tinyint not null
+
+
+); */
+
+select * from 과목
+
+insert into 과목 values(1,'sql',3);
+select * from 과목;
+
+insert into 과목 values(2,'bi',3),
+						(3,'py',2);
+						select * from 과목;
+
+
+								
+select * from 과목;
+
+insert into 과목(학점,과정명,과정번호)
+ values(4,'e',5)
+ select * from 과목;
+
+
+
+ -- 아래와 같이 테이블을 새로만들지않고 과목 테이블의 구조만 복사해도됨 
+
+
+ create table 학점3(
+ 과정번호 tinyint primary key,  
+ 과정명 nvarchar(5) not null,
+ 학점 tinyint not null)
+
+
+ insert into 학점3(과정번호,과정명,학점)
+ select * from 과목 where 학점=3
+
+ select * from 학점3
+
+
+
+
+ --테이블 구조만 복사
+
+ select * into [임시] from [과목] where 1=2;
+ select * from 임시
+
+ insert into [임시](과정번호,과정명,학점)
+ select * from 과목 where 학점 <=2
+ select * from 임시;
+ 
+ -- 한번에 테이블 생성도하는 insert
+
+ select * into [백업] from 과목;
+ select * from 백업;
+
+
+ drop table 백업
+
+ drop table 임시, 학점3
+
+
+ ALTER TABLE 과목 ADD 수준 NCHAR   -- nc에 자릿수없어서 1칸만됨
+
+
+SELECT * FROM 과목
+INSERT INTO 과목 VALUES (6,'ㅐ','3','중')
+SELECT * from 과목
+ 
+ ALTER TABLE 과목 ALTER COLUMN 수준 NCHAR(4)
+
+ update 과목
+ set 수준='초'
+where 수준 is null;
+
+--- 데이터 수정 하기 
+
+
+ select * from 과목 
+
+ DELETE 
+ FROM 과목
+ where 수준='초';
+
+
+
+
+
+---------------------------------
+
+
+
+
+
+
+
+-- userL kim 230209
+------ 데이터베이스로이동하여 과목테이블의내용 확인 
+
+
+USE test
+GO
+
+SELECT * FROM 과목
+
+
+-/* ####
+테이블구조변경  (alter)
+-열필드 추가또는 
+이미존재하는 필드(열)의 속성(형식,자릿수) 값 변경
+필드(열) 삭제 또는 필드(열) 제한사항 변경(기본키,null 유무등)
+
+*/
+
+ALTER TABLE 과목 ADD 수준 NCHAR   -- nc에 자릿수없어서 1칸만됨
+
+
+SELECT * FROM 과목
+INSERT INTO 과목 VALUES (6,'ㅐ','3','중')
+SELECT 
