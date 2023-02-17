@@ -1,0 +1,86 @@
+
+import cv2
+import pandas as pd
+
+
+
+
+top=[]
+bottom=[]
+# function which will be called on mouse input
+
+xy=[]
+def drawRectangle(action, x, y, flags, *userdata):
+
+
+    # Referencing global variables
+    global top_left_corner, bottom_right_corner,top,bottom
+    # Mark the top left corner when left mouse button is pressed
+    if action == cv2.EVENT_LBUTTONDOWN:
+        top_left_corner = [(x, y)]
+        top=(x,y)
+
+
+    elif action == cv2.EVENT_LBUTTONUP:
+        bottom_right_corner = [(x, y)]
+        bottom=(x,y)
+        
+        #xy.append(bottom)
+        # reten그리기 마우스로 
+        cv2.rectangle(image, top_left_corner[0], bottom_right_corner[0], (0, 255, 0), 2, 8)
+
+        
+        #사각형 가로,세로
+        w=abs(bottom[0]-top[0])
+        h=abs(bottom[1]-top[1])
+        #나비를 사각형크기만큰 조절
+        tmp=cv2.resize(image2,(w,h))
+        # 나비 알파채널 분리: 알파체널/255     오픈cv에서는 알파채널도 0-255다 따라서 255를 나눠줘야함 
+        mask_img=tmp[:,:,3]/255
+        #합성(for)  ,c 넣는거 주의 
+        for c in range(3):
+            image[top[1]:bottom[1],top[0]:bottom[0],c]=(tmp[:,:,c]*mask_img)+image[top[1]:bottom[1],top[0]:bottom[0],c]*(1-mask_img)
+        cv2.imshow("Window", image)
+        
+        
+        
+
+
+
+# Read Images
+image = cv2.imread("./img01.jpg")
+# Make a temporary image, will be useful to clear the drawing
+
+
+image2=cv2.imread('./asas.png',-1)   #나비 불러오기 (오픈cv에서는 한글은 못불러옴 )
+
+temp = image.copy()
+# Create a named window
+cv2.namedWindow("Window")
+# highgui function called when mouse events occur
+cv2.setMouseCallback("Window", drawRectangle)
+
+
+
+
+
+k = 0
+# Close the window when key q is pressed
+while k != 113:
+# Display the image
+    cv2.imshow("Window", image)
+    k = cv2.waitKey(0)
+    # If c is pressed, clear the window, using the dummy image
+    if (k == 99):
+        image = temp.copy()
+        cv2.imshow("Window", image)
+        print(top)
+
+
+
+cv2.destroyAllWindows()
+
+
+df=pd.DataFrame(xy,columns=['top','bottom'])
+print(df)
+df.to_csv('얼굴.csv')
