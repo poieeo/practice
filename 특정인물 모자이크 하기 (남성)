@@ -1,0 +1,44 @@
+#최종결과: 이미지에 얼굴 바운딩박스 그리고 예측한텍스트를 표시하는 거 
+# 폰트 색상 지정
+img=cv2.imread('./open_cv_1.jpg')
+
+blue = (255, 0, 0)
+green= (0, 255, 0)
+red= (0, 0, 255)
+white= (255, 255, 255)
+
+font =  cv2.FONT_HERSHEY_PLAIN
+
+img = cv2.putText(img, txt, (10, 30), font, 2, blue, 1, cv2.LINE_AA)
+
+
+tmp=[]
+
+for (x,y,w,h),result in zip(faces,predict):
+    if result[0]=='male':        
+        px=30
+        ROI=img[y-px:y+h+px,x-px:x+h+px]
+        img[y-px:y+h+px,x-px:x+h+px]=mosaic(ROI)
+
+        
+        
+        
+        
+        
+        
+
+#         cv2.rectangle(img,(x-20,y-20,w+40,h+40),blue,2)          
+#         tmp_txt=f'{result[0]}:{result[1]:.2f}'  #2f는 소수이하 2자리까지 알려주기 
+
+#         cv2.putText(img, tmp_txt, (x, y-30), font, 1, blue, 1, cv2.LINE_AA)
+
+    
+
+# def mosaic(src, ratio=0.1):
+#     small = cv2.resize(src, None, fx=ratio, fy=ratio, interpolation=cv2.INTER_NEAREST)
+#     return cv2.resize(small, src[x:h,y:w], interpolation=cv2.INTER_NEAREST)
+
+
+cv2.imshow('img',img)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
