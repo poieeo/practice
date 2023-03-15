@@ -1,0 +1,6 @@
+names: [Violence,Knife]
+nc: 2
+
+test: /content/fight/
+train: /content/fight/
+val: /content/fight/
